@@ -11,32 +11,36 @@ export default function Calculator() {
 
   return (
     <div>
-      <h1>Calculator</h1>
-      <div>
+      <h1 className="text-xl p-2">Calculator</h1>
+      <div className="p-3">
         <label>Target Cals</label>
         <input
           type="number"
+          className="border border-gray-900 ml-5"
           onChange={(e) => settarg_cals(e.target.valueAsNumber)}
         />
       </div>
-      <div>
+      <div className="p-3">
         <label>Price</label>
         <input
           type="number"
+          className="border border-gray-900 ml-5"
           onChange={(e) => setprice(e.target.valueAsNumber)}
         />
       </div>
-      <div>
+      <div className="p-3">
         <label>Calories per kg</label>
         <input
           type="number"
+          className="border border-gray-900 ml-5"
           onChange={(e) => setcal_kg(e.target.valueAsNumber)}
         />
       </div>
-      <div>
+      <div className="p-3">
         <label>Grams per can</label>
         <input
           type="number"
+          className="border border-gray-900 ml-5"
           onChange={(e) => setgr_can(e.target.valueAsNumber)}
         />
       </div>
