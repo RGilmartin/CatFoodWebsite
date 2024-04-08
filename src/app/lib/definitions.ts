@@ -5,6 +5,7 @@ export type Can = {
   price: number;
   currency: "USD" | "EUR" | "GBP";
   value_rating: number;
+  // food: Food;
 };
 
 export type Food = {
