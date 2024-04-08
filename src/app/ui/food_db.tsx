@@ -5,9 +5,21 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { Can } from "../lib/definitions";
-import { useMemo } from "react";
-import { food } from "../lib/food_temp";
+import { useEffect, useMemo, useState } from "react";
 const FoodTable = () => {
+  const [food, setFood] = useState([]); //Food data from api
+
+  // Get the data for the table
+  useEffect(() => {
+    fetch("http://localhost:3000/api")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFood(data);
+      });
+  }, []);
+
+  // Generate columns for the table
   const columns = useMemo<MRT_ColumnDef<Can>[]>(
     () => [
       {
@@ -42,7 +54,11 @@ const FoodTable = () => {
     columns,
     data: food,
   });
-  return <MaterialReactTable table={table} />;
+  return (
+    <div>
+      <MaterialReactTable table={table} />
+    </div>
+  );
 };
 
 export default FoodTable;
