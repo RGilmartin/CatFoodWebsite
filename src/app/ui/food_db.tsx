@@ -8,7 +8,7 @@ import { Can } from "../lib/definitions";
 import { useEffect, useMemo, useState } from "react";
 import { cansPerDay, costPerMonth } from "../lib/can_calc";
 const FoodTable = () => {
-  const [food, setFood] = useState([]); //Food data from api
+  const [food, setFood] = useState<InfoCan[]>([]); //Food data from api
 
   type InfoCan = Can & { cans_per_day: number; cost_per_month: number };
 
