@@ -20,8 +20,8 @@ const FoodTable = () => {
         console.log(data);
         let cansInfo: InfoCan[] = [];
         data.forEach((can: Can) => {
-          let cpd = cansPerDay(210, can); // TODO, add changable target Cals
-          let cpm = costPerMonth(210, can);
+          let cpd = cansPerDay(t_cals, can); // TODO, add changable target Cals
+          let cpm = costPerMonth(t_cals, can);
           cansInfo.push({ ...can, cans_per_day: cpd, cost_per_month: cpm });
         });
         setFood(cansInfo);
@@ -81,8 +81,18 @@ const FoodTable = () => {
     columns,
     data: food,
   });
+
+  const [t_cals, set_t_cals] = useState(200);
+
   return (
     <div>
+      <label>Target Calories</label>
+      <input
+        type="number"
+        id="targetCalories"
+        name="targetCalories"
+        onChange={(val) => set_t_cals(val.target.valueAsNumber)}
+      />
       <MaterialReactTable table={table} />
     </div>
   );
