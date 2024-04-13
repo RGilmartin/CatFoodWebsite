@@ -12,12 +12,31 @@ const FoodTable = () => {
 
   type InfoCan = Can & { cans_per_day: number; cost_per_month: number };
 
+  function updateCanData() {
+    food.forEach((can: InfoCan) => {
+      can.cans_per_day = cansPerDay(t_cals, can); // TODO, add changable target Cals
+      can.cost_per_month = costPerMonth(t_cals, can);
+      console.log(can);
+    });
+
+    setFood(food);
+  }
+
+  const updateData = useEffect(() => {
+    food.forEach((can: InfoCan) => {
+      can.cans_per_day = cansPerDay(t_cals, can); // TODO, add changable target Cals
+      can.cost_per_month = costPerMonth(t_cals, can);
+      console.log(can);
+    });
+
+    setFood(food);
+  }, []);
+
   // Get the data for the table
   useEffect(() => {
     fetch("http://localhost:3000/api")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         let cansInfo: InfoCan[] = [];
         data.forEach((can: Can) => {
           let cpd = cansPerDay(t_cals, can); // TODO, add changable target Cals
@@ -77,23 +96,27 @@ const FoodTable = () => {
     [],
   );
 
-  const table = useMaterialReactTable({
-    columns,
-    data: food,
-  });
-
   const [t_cals, set_t_cals] = useState(200);
 
   return (
     <div>
       <label>Target Calories</label>
       <input
+        className="w-24 border-2 border-gray-300 rounded-md m-5"
         type="number"
         id="targetCalories"
         name="targetCalories"
-        onChange={(val) => set_t_cals(val.target.valueAsNumber)}
+        onChange={(val) => {
+          set_t_cals(val.target.valueAsNumber);
+        }}
       />
-      <MaterialReactTable table={table} />
+      <button
+        className="h-12 w-24 bg-teal-700 text-slate-50 rounded-md m-5"
+        onClick={updateData}
+      >
+        Update
+      </button>
+      <MaterialReactTable columns={columns} data={food} />
     </div>
   );
 };
