@@ -14,7 +14,7 @@ const FoodTable = () => {
 
   // Get the data for the table
   useEffect(() => {
-    fetch("http://localhost:3000/api")
+    fetch("/api")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

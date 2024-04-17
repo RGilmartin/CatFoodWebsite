@@ -24,3 +24,35 @@ export async function GET(req, res) {
     status: 200,
   });
 }
+
+export async function POST(req, res) {
+  // Check if the database instance has been initialized
+  if (!db) {
+    // If the database instance is not initialized, open the database connection
+    db = await open({
+      filename: "./collection.db", // Specify the database file path
+      driver: sqlite3.Database, // Specify the database driver (sqlite3 in this case)
+    });
+  }
+
+  // Parse the request body as JSON
+  const body = await req.json();
+
+  // Insert the new item into the "cans" table
+  await db.run(
+    `INSERT INTO cans(name, cal_kg, gr_can, price, currency, value_rating) VALUES(?, ?, ? ,?, ?, ?)`,
+    [
+      body.name,
+      body.cal_kg,
+      body.gr_can,
+      body.price,
+      body.currency,
+      body.value_rating,
+    ],
+  );
+
+  // Return a success response with status 201
+  return new Response("Item added successfully", {
+    status: 201,
+  });
+}

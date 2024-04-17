@@ -3,7 +3,7 @@ export type Can = {
   cal_kg: number;
   gr_can: number;
   price: number;
-  currency: "USD" | "EUR" | "GBP";
+  currency: string;
   value_rating: number;
   // food: Food;
 };
