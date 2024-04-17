@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Can } from "../lib/definitions";
 
 export default function Add() {
   const [name, setName] = useState("");
@@ -8,6 +9,30 @@ export default function Add() {
   const [price, setPrice] = useState(0);
   const [currency, setCurrency] = useState("USD");
   const [valueRating, setValueRating] = useState(5);
+
+
+   async function addItem() {
+    let can: Can = {
+      name: name,
+      gr_can: grCan,
+      cal_kg: calKg,
+      price: price,
+      currency: currency,
+      value_rating: valueRating
+    };
+
+    fetch("/api", {
+      method: "POST",
+      body: JSON.stringify(can)
+    });
+
+    setName("");
+    setCalKg(0);
+    setGrCan(0);
+    setPrice(0);
+    setValueRating(5);
+  }
+
 
   return (
     <div>
@@ -64,8 +89,8 @@ export default function Add() {
           value={valueRating}
           onChange={(e) => setValueRating(e.target.valueAsNumber)}
         />
-        <button className="m-5 p-2 bg-teal-500 text-white rounded-lg">
-          Add Can{" "}
+        <button className="m-5 p-2 bg-teal-500 text-white rounded-lg" onClick={addItem}>
+          Add Can
         </button>
       </div>
     </div>
