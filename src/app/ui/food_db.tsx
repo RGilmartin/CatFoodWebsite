@@ -7,26 +7,33 @@ import {
 import { Can } from "../lib/definitions";
 import { useEffect, useMemo, useState } from "react";
 import { cansPerDay, costPerMonth } from "../lib/can_calc";
+import { createClient } from "@supabase/supabase-js";
 const FoodTable = () => {
   const [food, setFood] = useState<InfoCan[]>([]); //Food data from api
 
   type InfoCan = Can & { cans_per_day: number; cost_per_month: number };
 
+  // Initialize supabase
+  const supabase = createClient("https://yekvjcduzqmpvturifki.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlla3ZqY2R1enFtcHZ0dXJpZmtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM2MjA4OTAsImV4cCI6MjAyOTE5Njg5MH0.CEhDiuIIMqWvSiP_FdZiRwylHr0mNHxTmj3IR9IEfo8");
+
+
   // Get the data for the table
   useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        let cansInfo: InfoCan[] = [];
-        data.forEach((can: Can) => {
-          let cpd = cansPerDay(210, can); // TODO, add changable target Cals
-          let cpm = costPerMonth(210, can);
-          cansInfo.push({ ...can, cans_per_day: cpd, cost_per_month: cpm });
-        });
-        setFood(cansInfo);
-      });
+    getFood();
   }, []);
+
+  async function getFood() {
+    const { data } = await supabase.from("foods").select();
+    console.log(data);
+    let cansInfo: InfoCan[] = [];
+    data.forEach((can: Can) => {
+      let cpd = cansPerDay(210, can); // TODO, add changable target Cals
+      let cpm = costPerMonth(210, can);
+      cansInfo.push({ ...can, cans_per_day: cpd, cost_per_month: cpm });
+        
+      setFood(cansInfo);
+    })
+  }
 
   // Generate columns for the table
   const columns = useMemo<
