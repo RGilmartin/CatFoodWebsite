@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Can } from "../lib/definitions";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient("https://yekvjcduzqmpvturifki.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlla3ZqY2R1enFtcHZ0dXJpZmtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM2MjA4OTAsImV4cCI6MjAyOTE5Njg5MH0.CEhDiuIIMqWvSiP_FdZiRwylHr0mNHxTmj3IR9IEfo8");
 
 export default function Add() {
   const [name, setName] = useState("");
@@ -21,10 +24,7 @@ export default function Add() {
       value_rating: valueRating
     };
 
-    fetch("/api", {
-      method: "POST",
-      body: JSON.stringify(can)
-    });
+    await  supabase.from("foods").insert(can);
 
     setName("");
     setCalKg(0);

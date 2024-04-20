@@ -23,7 +23,9 @@ const FoodTable = () => {
   }, []);
 
   async function getFood() {
-    const { data } = await supabase.from("foods").select();
+
+    let data: any = []
+    data = await supabase.from("foods").select();
     console.log(data);
     let cansInfo: InfoCan[] = [];
     data.forEach((can: Can) => {
